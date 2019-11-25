@@ -24,6 +24,6 @@ app.post('/login', async (req,res)=>{
     }
 });
 
-app.listen(1001, () => {
+app.listen(2001, () => {
     console.log('app has started');
 });
