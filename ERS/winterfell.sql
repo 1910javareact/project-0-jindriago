@@ -41,8 +41,17 @@ create table reimbursement (
 	description text,
 	resolver int4 references "user" (user_id), 
 	status int4 references reimbursement_status (status_id), 
-	"type" text references reimbursement_type (type_id)
+	"type" int4 references reimbursement_type (type_id)
 );
+
+create table reimbursement_resolver_status_types_(
+	reimbursement_id int4 references reimbursement (reimbursement_id),
+	status_id int4 references reimbursement_status (status_id),
+	type_id int4 references reimbursement_type (type_id),
+	
+	constraint reimbursement_resolver_status_types_PK primary key (reimbursement_id, status_id, type_id)
+);
+
 
 insert into "user"(username, "password", first_name, last_name, email)
 	values ('kingofthenorth', 'password', 'Jon', 'Snow', 'iknownothing@westeros.com'),
@@ -64,4 +73,26 @@ insert into user_roles
 --select * from "user" natural join user_roles natural join roles where username = 'kingofthenorth' and "password" = 'password'; 
 --select * from westeros."user" natural join westeros.user_roles natural join westeros.roles where user_id = $1
 
+insert into reimbursement_status(status)
+	values ('Pending'),
+		   ('Approved'),
+		   ('Denied');
+		  
+insert into reimbursement_type("type")
+	values ('Lodging'),
+		   ('Travel'),
+		   ('Food'),
+		   ('Other');
+		  
+		  
+insert into reimbursement(author, amount, date_submitted, date_resolved, description, resolver, status, "type")
+	values (1, 500, 11, 3, 'Food for the dragons', 100, 1, 2);
 
+
+
+
+
+
+
+
+select * from reimbursement;

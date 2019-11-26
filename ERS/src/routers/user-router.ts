@@ -28,3 +28,4 @@ userRouter.get('/:id', async (req, res) => {
 
     }
 });
+

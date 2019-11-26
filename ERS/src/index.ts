@@ -2,8 +2,9 @@ import express from 'express';
 import bodyparser from 'body-parser';
 import { sessionMiddleware } from './middleware/session-middleware';
 import { getUserByUsernameAndPassword } from './services/user-service';
-import { loggingMiddleware } from './middleware/logging-middleware';
 import { userRouter } from './routers/user-router';
+import { reimbursementsRouter } from './routers/reimbursement-router';
+import { loggingMiddleware } from './middleware/logging-middleware';
 
 
 const app = express();
@@ -32,6 +33,7 @@ app.post('/login', async (req,res)=>{
         res.status(e.status).send(e.message);
     }
 });
+app.use('/reimbursements', reimbursementsRouter);
 
 app.listen(2001, () => {
     console.log('app has started');
