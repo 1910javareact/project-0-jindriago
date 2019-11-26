@@ -4,7 +4,6 @@ import { daoGetUserById } from '../repositories/user-dao';
 
 export const userRouter = express.Router();
 
-//an example of not using arrow functions
 userRouter.get('', async (req, res)=>{
     try {
         const user = await getAllUsers();

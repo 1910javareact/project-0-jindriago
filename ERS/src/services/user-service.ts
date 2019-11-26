@@ -2,11 +2,11 @@ import { User } from "../models/user";
 import { daoGetUserByUsernameAndPassword, daoGetAllUsers, daoGetUserById } from "../repositories/user-dao";
 
 export async function getAllUsers(): Promise<User[]> {
-    //do some processing
+    
     try {
         return await daoGetAllUsers();
     } catch (e) {
-        throw e; //we have to re-throw e or the error will get lost in async callbacks
+        throw e; 
     }
 
 }
