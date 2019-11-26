@@ -16,7 +16,6 @@ app.use(loggingMiddleware);
 
 app.use(sessionMiddleware)
 
-app.use('/users', userRouter);
 
 
 
@@ -33,7 +32,12 @@ app.post('/login', async (req,res)=>{
         res.status(e.status).send(e.message);
     }
 });
+
+app.use('/users', userRouter);
+
+
 app.use('/reimbursements', reimbursementsRouter);
+
 
 app.listen(2001, () => {
     console.log('app has started');

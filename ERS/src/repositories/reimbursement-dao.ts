@@ -29,3 +29,30 @@ export async function daoGetReimbursementByStatusId(id: number): Promise <reimbu
         client && client.release();
     }
 }
+
+export async function daoGetReimbursementByUserById(id: number): Promise<reimbursement[]> {
+    let client: PoolClient;
+    try {
+        client = await connectionPool.connect();
+        const result = await client.query('select * from westeros.reimbursement where author = $1', [id]);
+        if (result.rowCount > 0) {
+            return multiReimbursementDTOConverter(result.rows);
+        } else {
+            throw 'No Such Reimbursement';
+        }
+
+    } catch (e) {
+        if (e === 'No Such Reimbursement') {
+            throw {
+                status: 404,
+                message: 'this reimbursement does not exist'
+            }; //this is an error
+        } else {
+            throw  {
+                status: 500,
+                message: 'Internal Server Error'
+            };
+        }
+    }
+
+}
