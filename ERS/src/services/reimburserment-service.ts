@@ -1,5 +1,5 @@
 import { reimbursement } from "../models/reimbursement";
-import { daoGetReimbursementByStatusId, daoGetReimbursementByUserById } from "../repositories/reimbursement-dao";
+import { daoGetReimbursementByStatusId, daoGetReimbursementByUserById, daoSubmitReimbursement, daoUpdateReimbursement } from "../repositories/reimbursement-dao";
 
 
 export async function getReumbursementByStatusId(id:number): Promise<reimbursement[]> {
@@ -20,4 +20,20 @@ export function getReimbursementByUserId(id: number): Promise<reimbursement[]> {
     }
 }
 
+export function sendSubmitReimbursement(r: reimbursement): Promise<reimbursement>{
+    try {
+        return daoSubmitReimbursement(r);
+        
+    } catch (e) {
+        throw e;
+    }
+}
 
+export function updateReimbursement (r: reimbursement): Promise<reimbursement>{
+    try {
+        return daoUpdateReimbursement(r);
+    } catch (e) {
+        throw e;
+        
+    }
+}
