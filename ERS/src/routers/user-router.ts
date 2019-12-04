@@ -1,10 +1,11 @@
 import express from 'express';
-import { getAllUsers } from '../services/user-service';
-import { daoGetUserById } from '../repositories/user-dao';
+import { getAllUsers, getUserById } from '../services/user-service';
+import { authorization } from '../middleware/auth-middleware';
 
 export const userRouter = express.Router();
 
-userRouter.get('', async (req, res)=>{
+userRouter.get('', [authorization(['finance-manager'])],
+async (req, res)=>{
     try {
         const user = await getAllUsers();
         res.json(user);
@@ -13,18 +14,29 @@ userRouter.get('', async (req, res)=>{
     }
 })
 
-userRouter.get('/:id', async (req, res) => {
-    const id = +req.params.id; //from req.params, give me id
+userRouter.get('/:id', [authorization(['finance-manager', 'admin', 'user'])],
+async (req, res) => {
+    const id = +req.params.id;
     if (isNaN(id)) {
         res.sendStatus(400);
-    } else {
+    }else if (req.session.user.role.role === 'finance-manager') {
         try {
-            const garden = await daoGetUserById(id);
-            res.json(garden);
-        } catch (e) {
-            res.status(e.status).send(e.message);
+            const user = await getUserById(id);
+            res.status(200).json(user);
+        } catch (error) {
+            res.status(error.status).send(error.message);
         }
-
+    }else {
+        try {
+            const user = await getUserById(id);
+            if (req.session.user.userId === user.userId) {
+                res.status(200).json(user);
+            }else {
+                res.sendStatus(401);
+            }
+        } catch (error) {
+            res.status(error.status).send(error.message);
+        }
     }
 });
 

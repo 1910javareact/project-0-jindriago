@@ -21,3 +21,4 @@ export function getUserByUsernameAndPassword(username: string, password: string 
 
     return daoGetUserByUsernameAndPassword(username, password);
 }
+

@@ -44,14 +44,6 @@ create table reimbursement (
 	"type" int4 references reimbursement_type (type_id)
 );
 
-create table reimbursement_resolver_status_types_(
-	reimbursement_id int4 references reimbursement (reimbursement_id),
-	status_id int4 references reimbursement_status (status_id),
-	type_id int4 references reimbursement_type (type_id),
-	
-	constraint reimbursement_resolver_status_types_PK primary key (reimbursement_id, status_id, type_id)
-);
-
 
 insert into "user"(username, "password", first_name, last_name, email)
 	values ('kingofthenorth', 'password', 'Jon', 'Snow', 'iknownothing@westeros.com'),
@@ -86,7 +78,11 @@ insert into reimbursement_type("type")
 		  
 		  
 insert into reimbursement(author, amount, date_submitted, date_resolved, description, resolver, status, "type")
-	values (1, 500, 11, 3, 'Food for the dragons', 100, 1, 2);
+	values (1, 500, 11252019, 11262019, 'Food for Drogon', 2, 2, 3),
+		   (2, 50, 11242019, 1, 'Food and wine', 2, 1, 3),
+		   (3, 100, 11202019, 11222019, 'Sharpen needle', 2, 3, 4),
+		   (4, 1000, 11012019, 1, 'Protection from Brienne of Tarth', 2, 1, 1);
+		   
 
 
 
